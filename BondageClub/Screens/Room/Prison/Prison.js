@@ -43,7 +43,7 @@ function PrisonPlayerIsFeetTied()   {return PrisonCharacterAppearanceAvailable(P
 function PrisonPlayerIsOTMGag()     {return PrisonCharacterAppearanceAvailable(Player, "ClothGag", "ItemMouth");}
 function PrisonPlayerIsStriped()    {return !(PrisonCharacterAppearanceGroupAvailable(Player, "Cloth"));}
 function PrisonPlayerIsBadGirl()    {return LogQuery("Joined", "BadGirl");}
-function PrisonPlayerIsBadGirlThief()	{return (LogQuery("Joined", "BadGirl") && (LogQuery("Stolen", "BadGirl") || LogQuery("Hide", "BadGirl")));}
+function PrisonPlayerIsBadGirlThief()	{return (LogQuery("Joined", "BadGirl") && (LogQuery("Stolen", "BadGirl") || LogQuery("Hide", "BadGirl") || LogQuery("Caught", "BadGirl")));}
 function PrisonPlayerHasSleepingPills()	{return (InventoryAvailable(Player, "RegularSleepingPill", "ItemMouth"));}
 function PrisonPlayerHasSpankingToys() {return (InventoryAvailable(Player, "SpankingToys", "ItemHands"));}
 function PrisonPlayerHasKeys() {return (InventoryAvailable(Player, "MetalPadlockKey", "ItemMisc") || InventoryAvailable(Player, "IntricatePadlockKey", "ItemMisc") ||  InventoryAvailable(Player, "MetalCuffsKey", "ItemMisc"));}
@@ -592,6 +592,7 @@ function PrisonWantedPlayer() {
 	var i;
 	if (LogQuery("Hide", "BadGirl")) return 7;
 	else if (LogQuery("Stolen", "BadGirl")) return 4;
+	else if (LogQuery("Caught", "BadGirl")) return 9;
 	else if (LogQuery("Joined", "BadGirl")) return 1;
 }
 
@@ -772,7 +773,7 @@ function PrisonArrestEquipmentSearch() {
 }
 
 function PrisonArrestConfiscatDices() {
-	LogDelete("Stolen", "BadGirl");
+	PrisonDiceBack();
 	PrisonSetBehavior(-2);
 	PrisonArrestEquipmentSearch();
 }
@@ -810,6 +811,7 @@ function PrisonArrestLeave() {
 function PrisonDiceBack() {
 	LogDelete("Stolen", "BadGirl");
 	LogDelete("Hide", "BadGirl");
+	LogDelete("Caught", "BadGirl");
 }
 
 
