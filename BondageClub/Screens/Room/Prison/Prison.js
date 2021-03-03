@@ -736,6 +736,8 @@ function PrisonArrestStripUnderware() {
 }
 
 function PrisonArrestSuit() {
+	// reset character pose
+	CharacterSetActivePose(Player, null, true);
 	InventoryWear(Player, "TShirt1", "Cloth", "#644000");
 	InventoryWear(Player, "Pajama1", "ClothLower", "#ffa500");
 	InventoryWear(Player, "Socks2", "Socks", "#CCCCCC");
