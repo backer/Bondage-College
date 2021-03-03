@@ -1062,7 +1062,7 @@ function StableCharacterAppearanceGroupAvailable(C, AppearanceGroup) {
 // Try to Hide the Dice for BadGirlsClub
 function StableHideDice() {
 	if (Math.random() < 0.25) {
-		PrisonMeetPoliceIntro("HorseStable", false);
+		PrisonMeetPoliceIntro("HorseStable");
 	} else {
 		CharacterSetCurrent(Player);
 		Player.CurrentDialog = TextGet("SuccessHide");

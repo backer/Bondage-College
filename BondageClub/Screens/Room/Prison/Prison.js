@@ -596,9 +596,8 @@ function PrisonWantedPlayer() {
 }
 
 //Catch by Police in MainHall
-function PrisonMeetPoliceIntro(RoomBackground, aggressive) {
-	// TODO remove hard-setting of aggressive flag, this is for testing
-	aggressive = true;
+function PrisonMeetPoliceIntro(RoomBackground) {
+	var aggressive = PrisonWantedPlayer() >= 4;
 
 	CommonSetScreen("Room", "Prison");
 	PrisonBackground = RoomBackground; //"MainHall","Gambling","HorseStable"
@@ -701,7 +700,7 @@ function PrisonSetBehavior(Behavior) {
 }
 
 function PrisonArrestHandoverDices() {
-	LogDelete("Stolen", "BadGirl");
+	PrisonDiceBack();
 	PrisonSetBehavior(2);
 }
 

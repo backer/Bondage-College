@@ -863,7 +863,7 @@ function GamblingCompleteRescue() {
  */
 function GamblingStealDice() {
 	if (Math.random() < 0.25) {
-		PrisonMeetPoliceIntro("Gambling", false);
+		PrisonMeetPoliceIntro("Gambling");
 	} else {
 		CharacterSetCurrent(Player);
 		Player.CurrentDialog = TextGet("SuccessStolen");
