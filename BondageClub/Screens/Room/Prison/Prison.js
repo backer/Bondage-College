@@ -596,7 +596,10 @@ function PrisonWantedPlayer() {
 }
 
 //Catch by Police in MainHall
-function PrisonMeetPoliceIntro(RoomBackground) {
+function PrisonMeetPoliceIntro(RoomBackground, aggressive) {
+	// TODO remove hard-setting of aggressive flag, this is for testing
+	aggressive = true;
+
 	CommonSetScreen("Room", "Prison");
 	PrisonBackground = RoomBackground; //"MainHall","Gambling","HorseStable"
 	PrisonPolice = null;
@@ -605,12 +608,50 @@ function PrisonMeetPoliceIntro(RoomBackground) {
 	PrisonPolice.AllowItem = false;
 	PrisonWearPoliceEquipment(PrisonPolice);
 	CharacterSetCurrent(PrisonPolice);
-	PrisonPolice.Stage = "Catch";
-	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchIntro");
+	PrisonPolice.Stage = aggressive ? "CatchAggressive" : "Catch";
+	PrisonPolice.CurrentDialog = aggressive ? DialogFind(PrisonPolice, "CatchIntroAggressive") : DialogFind(PrisonPolice, "CatchIntro");
+}
+
+function PrisonPutHandsInTheAir() {
+	CharacterSetActivePose(Player, "Yoked", true);
+	PrisonPolice.Stage = "CatchAggressive2";
+	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveHandsInAir");
+}
+
+function PrisonCatchKneel() {
+	CharacterSetActivePose(Player, "Kneel", false);
+	PrisonPolice.Stage = "CatchAggressive3";
+	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveKneeling");
+}
+
+function PrisonCatchHandcuffed() {
+	InventoryWear(Player, "MetalCuffs", "ItemArms");
+	PrisonPolice.Stage = "CatchAggressive4";
+	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveHandcuffed");
+}
+
+// player fails to escape if they try after kneeling, Police puts them in hogtie as punishment
+function PrisonCatchKneelingEscape() {
+	// TODO change manacles to hogtie
+	InventoryWear(Player, "Manacles", "ItemArms");
+	PrisonPolice.Stage = "CatchAggressive5";
+	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveFailedEscape");
+}
+
+function PrisonCatchComplain() {
+	InventoryWear(Player, "BallGag", "ItemMouth");
+	PrisonPolice.Stage = "CatchAggressive6";
+	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveComplained");
+}
+
+function PrisonCatchAdmitDefeat() {
+	PrisonPolice.Stage = "CatchAggressive6";
+	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveAdmittedDefeat");
 }
 
 //When a fight starts between the player and the Police
 function PrisonFightPolice() {
+	CharacterSetActivePose(Player, null, true);
 	KidnapStart(PrisonPolice, PrisonBackground+"Dark", 5 + Math.floor(Math.random() * 5), "PrisonFightPoliceEnd()");
 }
 
