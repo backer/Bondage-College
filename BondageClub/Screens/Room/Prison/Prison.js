@@ -735,7 +735,7 @@ function PrisonArrestHandoverSpankingToys() {
 }
 
 function PrisonArrestStripOuterCloth() {
-	CharacterUnderwear(Player, Player.Appearance);
+	CharacterAppearanceStripLayer(Player);
 	PrisonSetBehavior(-1);
 }
 
