@@ -818,6 +818,17 @@ function PrisonArrestLeave() {
 	PrisonMaid.CurrentDialog = DialogFind(PrisonMaid, "PrisonMaidReleaseIsAngry");
 }
 
+/**
+ * When the player transfers the police to her room
+ * @returns {void} - Nothing
+ */
+ function PrisonTransferPoliceToRoom() {
+	PrisonWearPoliceEquipment(PrisonPolice);
+	CharacterRelease(Player);
+	CommonSetScreen("Room", "Private");
+	PrivateAddCharacter(PrisonPolice, "Police");
+	DialogLeave();
+}
 
 //ToDo (Helpfunction)
 function PrisonDiceBack() {
